@@ -24,7 +24,7 @@ void output_parameters(std::ofstream& fout, const Parameters& param)
 
 void output_wave(std::ofstream& fout,
                  double time,
-                 int n,
+                 size_t n,
                  std::unique_ptr<double[]>& x,
                  std::unique_ptr<double[]>& rho)
 {

@@ -19,7 +19,7 @@ void output_parameters(std::ofstream& fout, const Parameters& param);
 // 'n' should be the number of element of x and rho to write out.
 void output_wave(std::ofstream& fout,
                  double time,
-                 int n,
+                 size_t n,
                  std::unique_ptr<double[]>& x,
                  std::unique_ptr<double[]>& rho);
 
