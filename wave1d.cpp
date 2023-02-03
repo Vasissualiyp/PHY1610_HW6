@@ -54,20 +54,8 @@ int main(int argc, char* argv[])
     // Take timesteps
     for (size_t s = 0; s < param.nsteps; s++) {
 
-        // Set zero Dirichlet boundary conditions
-        rho[0] = 0.0;
-        rho[param.ngrid-1] = 0.0;
-
-        // Evolve inner region over a time dt using a leap-frog variant
-        for (size_t i = 1; i <= param.ngrid-2; i++) {
-            double laplacian = pow(param.c/param.dx,2)*(rho[i+1] + rho[i-1] - 2*rho[i]);
-            double friction = (rho[i] - rho_prev[i])/param.tau;
-            rho_next[i] = 2*rho[i] - rho_prev[i] + param.dt*(laplacian*param.dt-friction);
-        }
-
-        // Update arrays such that t+1 becomes the new t etc.
-        std::swap(rho_prev, rho);
-        std::swap(rho, rho_next);
+        // Evolve in time
+        one_time_step(param,rho_prev,rho,rho_next);
         
         // Output wave to file
         if ((s+1)%param.nper == 0) {
