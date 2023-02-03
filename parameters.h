@@ -21,6 +21,6 @@ class Parameters {
     size_t  nper;           // how many step s between snapshots
 };
 
-Parameters readParametersFromFile(const std::string& filename);
+int readParametersFromFile(const std::string& filename, Parameters& param);
 
 #endif

@@ -5,7 +5,7 @@ CXXFLAGS=-O2 -g -std=c++17 -Wall -Wfatal-errors -Wconversion
 LDFLAGS=-O2 -g
 all: wave1d
 
-wave1d: wave1d.o parameters.o initialize.o output.o evolve.o
+wave1d: wave1d.o parameters.o initialize.o output.o evolve.o simulation.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 
 wave1d.o: wave1d.cpp parameters.h initialize.h
@@ -23,11 +23,14 @@ output.o: output.cpp output.h parameters.h
 evolve.o: evolve.cpp evolve.h parameters.h
 	$(CXX) -c $(CXXFLAGS) -o evolve.o evolve.cpp
 
+simulation.o: simulation.cpp simulation.h parameters.h evolve.h
+	$(CXX) -c $(CXXFLAGS) -o simulation.o simulation.cpp
+
 run: wave1d
 	./wave1d waveparams.txt
 
 clean:
-	$(RM) wave1d.o parameters.o initialize.o output.o evolve.o
+	$(RM) wave1d.o parameters.o initialize.o output.o evolve.o simulation.o
 
 .PHONY: all clean run
 

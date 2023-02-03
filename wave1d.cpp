@@ -14,6 +14,7 @@
 #include "initialize.h"
 #include "output.h"
 #include "evolve.h"
+#include "simulation.h"
 
 int main(int argc, char* argv[])
 {
@@ -25,11 +26,10 @@ int main(int argc, char* argv[])
 
     // Read the values from the parameter file specified on the command line
     Parameters param;
-    try {
-       param = readParametersFromFile(argv[1]);
-    }
-    catch (int i) {
-        return i;
+    int errorcode  = readParametersFromFile(argv[1], param);
+
+    if (errorcode > 0) {
+        return errorcode;
     }
     
     // Derived parameters 
@@ -41,31 +41,33 @@ int main(int argc, char* argv[])
     output_parameters(param, fout);
     
     // Define and allocate arrays
-    auto rho_prev = std::make_unique<double[]>(param.ngrid); // time step t-1
-    auto rho      = std::make_unique<double[]>(param.ngrid); // time step t
-    auto rho_next = std::make_unique<double[]>(param.ngrid); // time step t+1
-    auto x        = std::make_unique<double[]>(param.ngrid); // x values
+    std::unique_ptr<double[]> rho_prev; // time step t-1
+    std::unique_ptr<double[]> rho;      // time step t
+    std::unique_ptr<double[]> rho_next; // time step t+1
+    std::unique_ptr<double[]> x;        // x values
 
-    initialize(param,x,rho,rho_prev);
+    create_simulation_system(param, rho_prev, rho, rho_next, x);
+    initialize(param, x, rho, rho_prev);
 
     // Output initial wave to file
-    output_wave(param,fout,0.0,x,rho);
+    output_wave(param, fout, 0.0, x, rho);
 
     // Take timesteps
     for (size_t s = 0; s < param.nsteps; s++) {
 
         // Evolve in time
-        one_time_step(param,rho_prev,rho,rho_next);
+        one_time_step(param, rho_prev, rho, rho_next);
         
         // Output wave to file
         if ((s+1)%param.nper == 0) {
-            output_wave(param,fout,static_cast<double>(s+1)*param.dt,x,rho);
+            output_wave(param, fout, static_cast<double>(s+1)*param.dt, x, rho);
         }
     }
 
     // Close file
     fout.close();
     std::cout << "Results written to '"<< param.outfilename << "'.\n";
-    
+
+    return 0;
 }
 
