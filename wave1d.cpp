@@ -13,6 +13,7 @@
 #include "parameters.h"
 #include "initialize.h"
 #include "output.h"
+#include "evolve.h"
 
 int main(int argc, char* argv[])
 {
@@ -32,11 +33,8 @@ int main(int argc, char* argv[])
     }
     
     // Derived parameters 
-    param.ngrid  = static_cast<size_t>((param.x2-param.x1)/param.dx);// number of x points (rounded down)
-    param.dt     = 0.5*param.dx/param.c;                             // time step size
-    param.nsteps = static_cast<size_t>(param.runtime/param.dt);      // number of steps to reach runtime (rounded down)
-    param.nper   = static_cast<size_t>(param.outtime/param.dt);      // how many steps between snapshots (rounded down)
-
+    param = set_simulation_parameters(param);
+    
     // Open output file
     std::ofstream fout(param.outfilename);
     
