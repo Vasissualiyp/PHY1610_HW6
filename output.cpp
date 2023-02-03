@@ -1,6 +1,9 @@
+// output.cpp
 #include "output.h"
 
-void output_parameters(const Parameters& param, std::ofstream& fout)
+// See output.h for how to use the functions in this module
+
+void output_parameters(std::ofstream& fout, const Parameters& param)
 {
     // Report all the parameters in the output file (prepend # to
     // facilitate post-processing, as e.g. gnuplot and numpy.loadtxt
@@ -19,9 +22,9 @@ void output_parameters(const Parameters& param, std::ofstream& fout)
     fout << "#nper  (derived) " << param.nper   << "\n";
 }
 
-void output_wave(const Parameters& param,
-                 std::ofstream& fout,
+void output_wave(std::ofstream& fout,
                  double time,
+                 int n,
                  std::unique_ptr<double[]>& x,
                  std::unique_ptr<double[]>& rho)
 {
@@ -31,7 +34,7 @@ void output_wave(const Parameters& param,
     else
         fout << "\n\n# ";
     fout << "t = " << time << "\n";
-    for (size_t i = 0; i < param.ngrid; i++)  {
+    for (size_t i = 0; i < n; i++)  {
         fout << x[i] << " " << rho[i] << "\n";
     }
 }

@@ -1,8 +1,11 @@
+// simulation.cpp
 #include "simulation.h"
 #include <tuple>
 #include <memory>
 
-Parameters set_simulation_parameters(const Parameters& p)
+// See simulation.h for how to use the functions in this module
+
+Parameters set_derived_simulation_parameters(const Parameters& p)
 {
     Parameters result = p;
     // Derived parameters 

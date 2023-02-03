@@ -1,5 +1,8 @@
+// initialize.cpp
 #include "initialize.h"
 #include <cmath>
+
+// See initialize.h for how to use the function in this module
 
 void initialize(Parameters& param,
                 std::unique_ptr<double[]>& x,

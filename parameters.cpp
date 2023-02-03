@@ -1,8 +1,11 @@
+// parameters.cpp
 #include "parameters.h"
 
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+
+// See parameters.h for how to use the function in this module
 
 int readParametersFromFile(const std::string& filename, Parameters& param)
 {

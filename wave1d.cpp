@@ -1,5 +1,4 @@
-//
-// wave1d.cc - Simulates a one-dimensional damped wave equation
+// wave1d.cpp - Simulates a one-dimensional damped wave equation
 //
 // Ramses van Zon - 2015-2023
 //
@@ -25,20 +24,20 @@ int main(int argc, char* argv[])
     }
 
     // Read the values from the parameter file specified on the command line
+    // but exit with error code if something went wrong
     Parameters param;
-    int errorcode  = readParametersFromFile(argv[1], param);
-
+    int errorcode = readParametersFromFile(argv[1], param);
     if (errorcode > 0) {
         return errorcode;
     }
     
     // Derived parameters 
-    param = set_simulation_parameters(param);
+    param = set_derived_simulation_parameters(param);
     
     // Open output file
     std::ofstream fout(param.outfilename);
     
-    output_parameters(param, fout);
+    output_parameters(fout, param);
     
     // Define and allocate arrays
     std::unique_ptr<double[]> rho_prev; // time step t-1
@@ -50,7 +49,7 @@ int main(int argc, char* argv[])
     initialize(param, x, rho, rho_prev);
 
     // Output initial wave to file
-    output_wave(param, fout, 0.0, x, rho);
+    output_wave(fout, 0.0, param.ngrid, x, rho);
 
     // Take timesteps
     for (size_t s = 0; s < param.nsteps; s++) {
@@ -60,7 +59,7 @@ int main(int argc, char* argv[])
         
         // Output wave to file
         if ((s+1)%param.nper == 0) {
-            output_wave(param, fout, static_cast<double>(s+1)*param.dt, x, rho);
+            output_wave(fout, static_cast<double>(s+1)*param.dt, param.ngrid, x, rho);
         }
     }
 

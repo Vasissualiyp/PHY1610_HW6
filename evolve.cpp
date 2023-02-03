@@ -1,5 +1,8 @@
+// evolve.cpp
 #include <cmath>
 #include "evolve.h"
+
+// See evolve.h for how to use the function in this module
 
 void one_time_step(const Parameters& param,
                    std::unique_ptr<double[]>& rho_prev,
