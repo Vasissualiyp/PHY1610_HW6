@@ -5,11 +5,7 @@
 // See evolve.h for how to use the function in this module
 
 void one_time_step(const Parameters& param, WaveState& wave)
-{
-    // Set zero Dirichlet boundary conditions
-    wave.rho[0] = 0.0;
-    wave.rho[param.ngrid-1] = 0.0;
-    
+{    
     // Evolve inner region over a time dt using a leap-frog variant
     for (size_t i = 1; i <= param.ngrid-2; i++) {
         double laplacian = pow(param.c/param.dx,2)*(wave.rho[i+1] + wave.rho[i-1] - 2*wave.rho[i]);

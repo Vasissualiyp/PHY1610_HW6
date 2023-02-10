@@ -23,4 +23,8 @@ void initialize(const Parameters& param, WaveState& wave)
         }
         wave.rho_prev[i] = wave.rho[i];
     }
+
+    // Ensure zero Dirichlet boundary conditions
+    wave.rho[0] = 0.0;
+    wave.rho[param.ngrid-1] = 0.0;
 }
