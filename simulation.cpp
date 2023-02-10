@@ -17,11 +17,11 @@ Parameters set_derived_simulation_parameters(const Parameters& p)
 }
 
 
-void create_simulation_system(const Parameters& param, std::unique_ptr<double[]>& rho_prev, std::unique_ptr<double[]>& rho, std::unique_ptr<double[]>& rho_next, std::unique_ptr<double[]>& x)
+void create_simulation_system(const Parameters& param, WaveState& wave)
 {
     // Define and allocate arrays
-    rho_prev = std::make_unique<double[]>(param.ngrid); // time step t-1
-    rho      = std::make_unique<double[]>(param.ngrid); // time step t
-    rho_next = std::make_unique<double[]>(param.ngrid); // time step t+1
-    x        = std::make_unique<double[]>(param.ngrid); // x values
+    wave.rho_prev = std::make_unique<double[]>(param.ngrid); // time step t-1
+    wave.rho      = std::make_unique<double[]>(param.ngrid); // time step t
+    wave.rho_next = std::make_unique<double[]>(param.ngrid); // time step t+1
+    wave.x        = std::make_unique<double[]>(param.ngrid); // x values
 }

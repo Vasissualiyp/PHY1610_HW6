@@ -2,9 +2,7 @@
 #ifndef _SIMH_
 #define _SIMH_
 
-#include <memory>
-#include "parameters.h"
-
+#include "wavetypes.h"
 
 // The 'set_derived_simulation_parameters' function takes a Parameters
 // struct that was read in from a parameters file, computes the other
@@ -14,14 +12,10 @@ Parameters set_derived_simulation_parameters(const Parameters& p);
 
 // The 'create_simulation_system' allocates memory for the wave field
 // at three time points and for the position array, and assigns these
-// to the references unique pointers passed as arguments.
+// to the unique pointers in the WaveState passed as arguments.
 //
 // Because these are unique_pointers, their memory will be
 // automatically deallocated when they get out of scope.
-void create_simulation_system(const Parameters& param, 
-                              std::unique_ptr<double[]>& rho_prev,
-                              std::unique_ptr<double[]>& rho,
-                              std::unique_ptr<double[]>& rho_next,
-                              std::unique_ptr<double[]>& x);
+void create_simulation_system(const Parameters& param, WaveState& wave);
 
 #endif

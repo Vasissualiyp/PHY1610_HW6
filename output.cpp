@@ -22,11 +22,7 @@ void output_parameters(std::ofstream& fout, const Parameters& param)
     fout << "#nper  (derived) " << param.nper   << "\n";
 }
 
-void output_wave(std::ofstream& fout,
-                 double time,
-                 size_t n,
-                 std::unique_ptr<double[]>& x,
-                 std::unique_ptr<double[]>& rho)
+void output_wave(std::ofstream& fout, double time, size_t n, WaveState& wave)
 {
     // Output wave to file
     if (time == 0.0)
@@ -35,6 +31,6 @@ void output_wave(std::ofstream& fout,
         fout << "\n\n# ";
     fout << "t = " << time << "\n";
     for (size_t i = 0; i < n; i++)  {
-        fout << x[i] << " " << rho[i] << "\n";
+        fout << wave.x[i] << " " << wave.rho[i] << "\n";
     }
 }

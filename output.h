@@ -2,9 +2,8 @@
 #ifndef  _OUTPUTH_
 #define  _OUTPUTH_
 
-#include <memory>
 #include <fstream>
-#include "parameters.h"
+#include "wavetypes.h"
 
 // The 'output_parameters' function writes the parameters in param out
 // the an existing, open file stream fout.
@@ -17,10 +16,6 @@ void output_parameters(std::ofstream& fout, const Parameters& param);
 // The values are prepended by a line of the form '# t = ...',
 // with ... replaced by the value of time.
 // 'n' should be the number of element of x and rho to write out.
-void output_wave(std::ofstream& fout,
-                 double time,
-                 size_t n,
-                 std::unique_ptr<double[]>& x,
-                 std::unique_ptr<double[]>& rho);
+void output_wave(std::ofstream& fout, double time, size_t n, WaveState& wave);
 
 #endif

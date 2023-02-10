@@ -8,22 +8,22 @@ all: wave1d
 wave1d: wave1d.o parameters.o initialize.o output.o evolve.o simulation.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 
-wave1d.o: wave1d.cpp parameters.h initialize.h
+wave1d.o: wave1d.cpp parameters.h wavetypes.h initialize.h output.h evolve.h simulation.h
 	$(CXX) -c $(CXXFLAGS) -o wave1d.o wave1d.cpp
 
-parameters.o: parameters.cpp parameters.h
+parameters.o: parameters.cpp parameters.h wavetypes.h
 	$(CXX) -c $(CXXFLAGS) -o parameters.o parameters.cpp
 
-initialize.o: initialize.cpp initialize.h parameters.h
+initialize.o: initialize.cpp initialize.h wavetypes.h
 	$(CXX) -c $(CXXFLAGS) -o initialize.o initialize.cpp
 
-output.o: output.cpp output.h parameters.h
+output.o: output.cpp output.h wavetypes.h
 	$(CXX) -c $(CXXFLAGS) -o output.o output.cpp
 
-evolve.o: evolve.cpp evolve.h parameters.h
+evolve.o: evolve.cpp evolve.h wavetypes.h
 	$(CXX) -c $(CXXFLAGS) -o evolve.o evolve.cpp
 
-simulation.o: simulation.cpp simulation.h parameters.h evolve.h
+simulation.o: simulation.cpp simulation.h wavetypes.h
 	$(CXX) -c $(CXXFLAGS) -o simulation.o simulation.cpp
 
 run: wave1d
