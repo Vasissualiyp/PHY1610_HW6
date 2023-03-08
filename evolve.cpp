@@ -16,4 +16,8 @@ void one_time_step(const Parameters& param, WaveState& wave)
     // Update arrays such that t+1 becomes the new t etc.
     std::swap(wave.rho_prev, wave.rho);
     std::swap(wave.rho, wave.rho_next);
+
+    // Explicitly enforce boundary conditions:
+    wave.rho[0] = 0.0;
+    wave.rho[param.ngrid-1] = 0.0;
 }
