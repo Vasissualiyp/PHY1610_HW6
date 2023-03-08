@@ -3,7 +3,7 @@
 #ifndef _WAVETYPESH_
 #define _WAVETYPESH_
 
-#include <memory>
+#include <rarray>
 #include <string>
 
 // create a type that will hold a collection of parameters
@@ -26,10 +26,10 @@ class Parameters {
 
 class WaveState {
   public:
-    std::unique_ptr<double[]> rho_prev;
-    std::unique_ptr<double[]> rho;
-    std::unique_ptr<double[]> rho_next;
-    std::unique_ptr<double[]> x;
+    rarray<double,1> rho_prev;
+    rarray<double,1> rho;
+    rarray<double,1> rho_next;
+    rarray<double,1> x;
 };
 
 #endif

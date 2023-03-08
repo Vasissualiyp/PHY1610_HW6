@@ -1,7 +1,7 @@
 // simulation.cpp
 #include "simulation.h"
 #include <tuple>
-#include <memory>
+#include <rarray>
 
 // See simulation.h for how to use the functions in this module
 
@@ -20,8 +20,8 @@ Parameters set_derived_simulation_parameters(const Parameters& p)
 void create_simulation_system(const Parameters& param, WaveState& wave)
 {
     // Define and allocate arrays
-    wave.rho_prev = std::make_unique<double[]>(param.ngrid); // time step t-1
-    wave.rho      = std::make_unique<double[]>(param.ngrid); // time step t
-    wave.rho_next = std::make_unique<double[]>(param.ngrid); // time step t+1
-    wave.x        = std::make_unique<double[]>(param.ngrid); // x values
+    wave.rho_prev = rarray<double,1>(param.ngrid); // time step t-1
+    wave.rho      = rarray<double,1>(param.ngrid); // time step t
+    wave.rho_next = rarray<double,1>(param.ngrid); // time step t+1
+    wave.x        = rarray<double,1>(param.ngrid); // x values
 }
