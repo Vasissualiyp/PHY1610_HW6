@@ -1,10 +1,15 @@
 #define CATCH_CONFIG_MAIN
-#include "catch.hpp"
-#include "parameters.h"
+#include <catch2/catch_all.hpp>
+#include "evolve.h"
 #include "initialize.h"
 #include "output.h"
+#include "parameters.h"
+#include "simulation.h"
+#include "wavetypes.h"
+#include <fstream>
+#include <sstream>
 
-T_CASE("Initialization produces correct output file", "[initialization]") {
+TEST_CASE("Initialization produces correct output file", "[initialization]") {
     const char* output_filename = "results.txt";
     const char* expected_filename = "test_results.txt";
     const char* parameters_filename = "test_waveparams.txt";
