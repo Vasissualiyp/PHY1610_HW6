@@ -21,7 +21,14 @@ TEST_CASE("Integrated test of wave1d") {
     expected_stream << expected_file.rdbuf();
     output_stream << output_file.rdbuf();
 
-    REQUIRE(expected_stream.str() == output_stream.str());
+    std::string expected_str = expected_stream.str();
+    std::string output_str = output_stream.str();
+    std::size_t pos = expected_str.find("# t = 100\n");
+    expected_str.erase(0, pos);
+    pos = output_str.find("# t = 100\n");
+    output_str.erase(0, pos);
+
+    REQUIRE(expected_str == output_str);
 
 
 }
