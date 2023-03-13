@@ -29,8 +29,11 @@ simulation.o: simulation.cpp simulation.h wavetypes.h
 run: wave1d
 	./wave1d waveparams.txt
 
-clean:
+cleanall:
 	$(RM) wave1d.o parameters.o initialize.o output.o evolve.o simulation.o results.dat
+
+cleanall:
+	$(RM) wave1d.o parameters.o initialize.o output.o evolve.o simulation.o 
 
 .PHONY: all clean run
 
