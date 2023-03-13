@@ -5,6 +5,8 @@ CXXFLAGS=-O2 -g -std=c++17 -Wall -Wfatal-errors -Wconversion
 LDFLAGS=-O2 -g
 all: wave1d
 
+# Modules compilation {{{
+
 wave1d: wave1d.o parameters.o initialize.o output.o evolve.o simulation.o
 	$(CXX) $(LDFLAGS) -o $@ $^
 
@@ -25,15 +27,31 @@ evolve.o: evolve.cpp evolve.h wavetypes.h
 
 simulation.o: simulation.cpp simulation.h wavetypes.h
 	$(CXX) -c $(CXXFLAGS) -o simulation.o simulation.cpp
+#}}}
+
+# Module tests compilation {{{
+
+./int_test: int_test.o
+	$(CXX) $(LDFLAGS) -o $@ $^
+
+int_test.o: int_test.cpp
+	$(CXX) -c $(CXXFLAGS) -o int_test.o int_test.cpp
+
+#}}}
+
+# General commands {{{
 
 run: wave1d
 	./wave1d waveparams.txt
 
 cleanall:
-	$(RM) wave1d.o parameters.o initialize.o output.o evolve.o simulation.o results.dat
+	$(RM) wave1d.o parameters.o initialize.o output.o evolve.o simulation.o results.dat wave1d int_test int_test.o
 
-cleanall:
-	$(RM) wave1d.o parameters.o initialize.o output.o evolve.o simulation.o 
+clean:
+	$(RM) wave1d.o parameters.o initialize.o output.o evolve.o simulation.o int_test.o
 
-.PHONY: all clean run
+test:
+	./int_test
 
+.PHONY: all clean run cleanall test
+#}}}
