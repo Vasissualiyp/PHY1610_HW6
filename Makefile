@@ -30,7 +30,7 @@ run: wave1d
 	./wave1d waveparams.txt
 
 clean:
-	$(RM) wave1d.o parameters.o initialize.o output.o evolve.o simulation.o
+	$(RM) wave1d.o parameters.o initialize.o output.o evolve.o simulation.o results.dat
 
 .PHONY: all clean run
 
