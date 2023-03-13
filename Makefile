@@ -32,7 +32,7 @@ simulation.o: simulation.cpp simulation.h wavetypes.h
 # Module tests compilation {{{
 
 ./int_test: int_test.o
-	$(CXX) $(LDFLAGS) -o $@ $^
+	$(CXX) $(LDFLAGS) -o $@ $^   -lCatch2Main -lCatch2 #-lboost_unit_test_framework
 
 int_test.o: int_test.cpp
 	$(CXX) -c $(CXXFLAGS) -o int_test.o int_test.cpp
