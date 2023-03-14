@@ -1,17 +1,34 @@
 // evolve.cpp
 #include <cmath>
+#include <cblas.h>
 #include "evolve.h"
 
 // See evolve.h for how to use the function in this module
 
 void one_time_step(const Parameters& param, WaveState& wave)
 {    
-    // Evolve inner region over a time dt using a leap-frog variant
-    for (size_t i = 1; i <= param.ngrid-2; i++) {
-        double laplacian = pow(param.c/param.dx,2)*(wave.rho[i+1] + wave.rho[i-1] - 2*wave.rho[i]);
-        double friction = (wave.rho[i] - wave.rho_prev[i])/param.tau;
-        wave.rho_next[i] = 2*wave.rho[i] - wave.rho_prev[i] + param.dt*(laplacian*param.dt-friction);
-    }
+    //Matrix-vector roduct using symmetric band matrix, alpha*A*x + beta*y{{{
+    cblas_dsbmv(CblasRowMajor,     // Use RowMajor with C
+    	CblasUpper,    // upper or lower triangular band matrix?
+    	param.ngrid,    // order of matrix A
+    	1,   	       // number of super-diagonals of A
+    	1.0, 	       // alpha
+    	*param.A,       // matrix A
+    	&param.A[0][0], // first element of A
+    	*wave.rho,     // x array
+    	1,  	       // first element of x
+    	param.beta,    // beta
+    	*wave.rho_prev,// y array
+    	1); 	       // first element of y
+    //}}}
+	
+    //// Evolve inner region over a time dt using a leap-frog variant {{{
+    //for (size_t i = 1; i <= param.ngrid-2; i++) {
+    //    
+    //    double laplacian = pow(param.c/param.dx,2)*(wave.rho[i+1] + wave.rho[i-1] - 2*wave.rho[i]);
+    //    double friction = (wave.rho[i] - wave.rho_prev[i])/param.tau;
+    //    wave.rho_next[i] = 2*wave.rho[i] - wave.rho_prev[i] + param.dt*(laplacian*param.dt-friction);
+    //} //}}}
     
     // Update arrays such that t+1 becomes the new t etc.
     std::swap(wave.rho_prev, wave.rho);

@@ -8,7 +8,7 @@ all: wave1d test
 # Modules compilation {{{
 
 wave1d: wave1d.o parameters.o initialize.o output.o evolve.o simulation.o
-	$(CXX) $(LDFLAGS) -o $@ $^
+	$(CXX) $(LDFLAGS) -o $@ $^ -lopenblas
 
 wave1d.o: wave1d.cpp parameters.h wavetypes.h initialize.h output.h evolve.h simulation.h
 	$(CXX) -c $(CXXFLAGS) -o wave1d.o wave1d.cpp

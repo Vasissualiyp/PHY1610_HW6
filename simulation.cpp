@@ -4,6 +4,9 @@
 #include <rarray>
 
 // See simulation.h for how to use the functions in this module
+void printmatrix(const char* Xname, rmatrix<double> X) {
+	std::cout<<"Matrix "<<Xname<<" : "<<X.extent(0)<<" by "<<X.extent(1)<<"\n"<<X<<"\n";
+}
 
 Parameters set_derived_simulation_parameters(const Parameters& p)
 {
@@ -28,12 +31,13 @@ Parameters set_derived_simulation_parameters(const Parameters& p)
     for (int i=0; i<result.ngrid; i++){
     	result.A[i][i] = c_d;
     }
+    // making matrix upper triangular band matrix
     for (int i=1; i<result.ngrid; i++){
     	result.A[i-1][i] = c_offd;
-    	result.A[i][i-1] = c_offd;
+    	//result.A[i][i-1] = c_offd;
     }
     //}}}
-    
+    printmatrix("A", A);
     return result;
 }
 
