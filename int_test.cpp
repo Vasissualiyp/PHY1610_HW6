@@ -17,6 +17,11 @@ TEST_CASE("Integrated test of wave1d") {
     // Compare the output file with the expected file
     std::ifstream expected_file("test_results.dat");
     std::ifstream output_file("results.dat");
+
+    if (!output_file) {
+    std::cout << "Error: results.dat file not generated" << std::endl;
+    }
+
     std::stringstream expected_stream, output_stream;
     expected_stream << expected_file.rdbuf();
     output_stream << output_file.rdbuf();

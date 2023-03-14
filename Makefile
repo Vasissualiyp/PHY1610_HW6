@@ -3,7 +3,7 @@
 CXX=g++
 CXXFLAGS=-O2 -g -std=c++17 -Wall -Wfatal-errors -Wconversion
 LDFLAGS=-O2 -g
-all: wave1d
+all: wave1d test
 
 # Modules compilation {{{
 
@@ -50,8 +50,14 @@ cleanall:
 clean:
 	$(RM) wave1d.o parameters.o initialize.o output.o evolve.o simulation.o int_test.o
 
-test:
+#Runs integrated test
+test: wave1d int_test
 	./int_test
+
+#Runs integrated test and then cleans up afterwards
+testandclean: wave1d int_test
+	./int_test
+	$(MAKE) cleanall
 
 .PHONY: all clean run cleanall test
 #}}}
