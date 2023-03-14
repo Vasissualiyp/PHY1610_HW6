@@ -22,6 +22,8 @@ class Parameters {
     double  dt;             // time step size
     size_t  nsteps;         // number of steps of that size to reach runtime
     size_t  nper;           // how many step s between snapshots
+    double beta;	    // the scalar needed for BLAS method
+    rmatrix<double> A;      // tri-diagonal matrix with the elements needed for BLAS method
 };
 
 class WaveState {

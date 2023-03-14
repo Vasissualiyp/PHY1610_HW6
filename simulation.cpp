@@ -13,6 +13,18 @@ Parameters set_derived_simulation_parameters(const Parameters& p)
     result.dt     = 0.5*result.dx/result.c;                             // time step size
     result.nsteps = static_cast<size_t>(result.runtime/result.dt);      // number of steps to reach runtime (rounded down)
     result.nper   = static_cast<size_t>(result.outtime/result.dt);      // how many steps between snapshots (rounded down)
+    
+    // BLAS calculations {{{
+    
+    // diagonal elements for matrix A
+    double c_offd = result.beta = result.dt/result.tau - 1;
+    // off-diagonal elements for matrix A
+    double c_d = 2.0 - 2.0*pow(result.dt*result.c/result.dx, 2.0) - result.dt/result.tau;
+    // scalar beta
+    result.beta = pow(result.dt*result.c/result.dx, 2.0);
+    
+    //}}}
+    
     return result;
 }
 
