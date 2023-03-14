@@ -13,13 +13,13 @@ void one_time_step(const Parameters& param, WaveState& wave)
     	param.ngrid,    // order of matrix A
     	1,   	       // number of super-diagonals of A
     	1.0, 	       // alpha
-    	*param.A,       // matrix A
     	&param.A[0][0], // first element of A
-    	*wave.rho,     // x array
-    	1,  	       // first element of x
+    	param.ngrid,       // Leading dim of A
+    	&wave.rho[0],     // x array
+    	1,  	       // increment of x
     	param.beta,    // beta
-    	*wave.rho_prev,// y array
-    	1); 	       // first element of y
+    	&wave.rho_prev[0],// y array
+    	1); 	       // increment of y
     //}}}
 	
     //// Evolve inner region over a time dt using a leap-frog variant {{{

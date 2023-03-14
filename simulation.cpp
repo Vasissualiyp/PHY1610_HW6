@@ -26,8 +26,9 @@ Parameters set_derived_simulation_parameters(const Parameters& p)
     // scalar beta
     result.beta = pow(result.dt*result.c/result.dx, 2.0);
     // putting values into the A matrix
-
     result.A = rarray<double, 2> (result.ngrid, result.ngrid);
+    //result.A.fill(0,0);
+    for (int i=0; i<(result.ngrid*result.ngrid); i++) result.A[i/result.ngrid][i%result.ngrid] = 0.0;
     for (int i=0; i<result.ngrid; i++){
     	result.A[i][i] = c_d;
     }
@@ -37,7 +38,7 @@ Parameters set_derived_simulation_parameters(const Parameters& p)
     	//result.A[i][i-1] = c_offd;
     }
     //}}}
-    printmatrix("A", A);
+    //printmatrix("A", result.A);
     return result;
 }
 
