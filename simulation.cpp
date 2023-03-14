@@ -23,12 +23,14 @@ Parameters set_derived_simulation_parameters(const Parameters& p)
     // scalar beta
     result.beta = pow(result.dt*result.c/result.dx, 2.0);
     // putting values into the A matrix
-    //std::cout << "Original size of A: " << result.A.extent(0) << " x " << result.A.extent(1) << std::endl;
-    //std::cout << "Reshaping A to: " << result.ngrid << " x " << result.ngrid << std::endl;
 
     result.A = rarray<double, 2> (result.ngrid, result.ngrid);
     for (int i=0; i<result.ngrid; i++){
     	result.A[i][i] = c_d;
+    }
+    for (int i=1; i<result.ngrid; i++){
+    	result.A[i-1][i] = c_offd;
+    	result.A[i][i-1] = c_offd;
     }
     //}}}
     
