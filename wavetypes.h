@@ -24,6 +24,8 @@ class Parameters {
     size_t  nper;           // how many step s between snapshots
     double beta;	    // the scalar needed for BLAS method
     rmatrix<double> A;      // tri-diagonal matrix with the elements needed for BLAS method
+
+    //Parameters(size_t ngrid_) : ngrid(ngrid_), A(ngrid_, ngrid_) {};
 };
 
 class WaveState {

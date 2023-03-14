@@ -22,6 +22,9 @@ Parameters set_derived_simulation_parameters(const Parameters& p)
     double c_d = 2.0 - 2.0*pow(result.dt*result.c/result.dx, 2.0) - result.dt/result.tau;
     // scalar beta
     result.beta = pow(result.dt*result.c/result.dx, 2.0);
+    // giving dimensions to the A matrix
+    //result.A.resize(result.ngrid, result.ngrid);
+    result.A[0][0] = c_d;
     
     //}}}
     
