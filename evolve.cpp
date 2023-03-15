@@ -1,17 +1,9 @@
 // evolve.cpp
-#include "simulation.h"
 #include <cmath>
 #include <cblas.h>
-#include <tuple>
-#include <rarray>
 #include "evolve.h"
 
 // See evolve.h for how to use the function in this module
-
-// See simulation.h for how to use the functions in this module
-void printmatrix(const char* Xname, rmatrix<double> X) {
-	std::cout<<"Matrix "<<Xname<<" : "<<X.extent(0)<<" by "<<X.extent(1)<<"\n"<<X<<"\n";
-}
 
 void one_time_step(const Parameters& param, WaveState& wave)
 {    
@@ -33,24 +25,9 @@ void one_time_step(const Parameters& param, WaveState& wave)
     	param.beta,    // beta
     	&wave.rho_prev[0],// y array
     	1); 	       // increment of y
+    // swap the previous (which is now next) and current rho values
+    std::swap(wave.rho_prev, wave.rho);
     //}}}
-    
-    ////Matrix-vector product using symmetric band matrix, alpha*A*x + beta*y{{{
-    //cblas_dsbmv(CblasRowMajor,     // Use RowMajor with C
-    //	CblasUpper,    // upper or lower triangular band matrix?
-    //	param.ngrid,    // order of matrix A
-    //	1,   	       // number of super-diagonals of A
-    //	1.0, 	       // alpha
-    //	&param.A[0][0], // first element of A
-    //	param.ngrid,       // Leading dim of A
-    //	&wave.rho[0],     // x array
-    //	1,  	       // increment of x
-    //	0.0,    // beta
-    //	&wave.rho_next[0],// y array
-    //	1); 	       // increment of y
-    //cblas_dscal(52, )
-    ////}}}
-
     } else {
     // Evolve inner region over a time dt using a leap-frog variant {{{
     for (size_t i = 1; i <= param.ngrid-2; i++) {
@@ -58,13 +35,13 @@ void one_time_step(const Parameters& param, WaveState& wave)
         double laplacian = pow(param.c/param.dx,2)*(wave.rho[i+1] + wave.rho[i-1] - 2*wave.rho[i]);
         double friction = (wave.rho[i] - wave.rho_prev[i])/param.tau;
         wave.rho_next[i] = 2*wave.rho[i] - wave.rho_prev[i] + param.dt*(laplacian*param.dt-friction);
-    } //}}}
-    }
-    
+    } 
     // Update arrays such that t+1 becomes the new t etc.
     std::swap(wave.rho_prev, wave.rho);
-    //std::swap(wave.rho, wave.rho_next);
-
+    std::swap(wave.rho, wave.rho_next);
+    //}}}
+    }
+    
     // Explicitly enforce boundary conditions:
     wave.rho[0] = 0.0;
     wave.rho[param.ngrid-1] = 0.0;
