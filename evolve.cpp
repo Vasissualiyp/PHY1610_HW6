@@ -1,17 +1,25 @@
 // evolve.cpp
+#include "simulation.h"
 #include <cmath>
 #include <cblas.h>
+#include <tuple>
+#include <rarray>
 #include "evolve.h"
 
 // See evolve.h for how to use the function in this module
+
+// See simulation.h for how to use the functions in this module
+void printmatrix(const char* Xname, rmatrix<double> X) {
+	std::cout<<"Matrix "<<Xname<<" : "<<X.extent(0)<<" by "<<X.extent(1)<<"\n"<<X<<"\n";
+}
 
 void one_time_step(const Parameters& param, WaveState& wave)
 {    
     // this parameter controls if we use the BLAS or ODE method to solve this problem
     bool BLAS = true;
+    //printmatrix("A", param.A);
 
     if (BLAS = true) {
-	    
     //Matrix-vector product using symmetric band matrix, alpha*A*x + beta*y{{{
     cblas_dsbmv(CblasRowMajor,     // Use RowMajor with C
     	CblasUpper,    // upper or lower triangular band matrix?
@@ -19,7 +27,7 @@ void one_time_step(const Parameters& param, WaveState& wave)
     	1,   	       // number of super-diagonals of A
     	1.0, 	       // alpha
     	&param.A[0][0], // first element of A
-    	param.ngrid,       // Leading dim of A
+    	2,       // Leading dim of A
     	&wave.rho[0],     // x array
     	1,  	       // increment of x
     	param.beta,    // beta

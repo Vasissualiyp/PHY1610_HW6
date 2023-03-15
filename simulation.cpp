@@ -3,10 +3,6 @@
 #include <tuple>
 #include <rarray>
 
-// See simulation.h for how to use the functions in this module
-void printmatrix(const char* Xname, rmatrix<double> X) {
-	std::cout<<"Matrix "<<Xname<<" : "<<X.extent(0)<<" by "<<X.extent(1)<<"\n"<<X<<"\n";
-}
 
 Parameters set_derived_simulation_parameters(const Parameters& p)
 {
@@ -31,7 +27,7 @@ Parameters set_derived_simulation_parameters(const Parameters& p)
     for (int i=0; i<(result.ngrid*result.ngrid); i++) result.A[i/result.ngrid][i%result.ngrid] = 0.0;
     //printmatrix("A", result.A);
     for (int i=0; i<result.ngrid; i++){
-    	result.A[i][i] = c_d;
+    	result.A[i][i] = 2.0*c_d;
     }
     //printmatrix("A", result.A);
     // making matrix upper triangular band matrix

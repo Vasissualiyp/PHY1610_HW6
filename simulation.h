@@ -4,6 +4,8 @@
 
 #include "wavetypes.h"
 
+void printmatrix(const char* Xname, rmatrix<double> X) 
+
 // The 'set_derived_simulation_parameters' function takes a Parameters
 // struct that was read in from a parameters file, computes the other
 // parameters needed for the simulation, and returns a new Parameters
