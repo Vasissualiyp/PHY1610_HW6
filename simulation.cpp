@@ -20,18 +20,20 @@ Parameters set_derived_simulation_parameters(const Parameters& p)
     // BLAS calculations {{{
     
     // diagonal elements for matrix A
-    double c_offd = result.beta = result.dt/result.tau - 1;
+    double c_offd = pow(result.dt*result.c/result.dx, 2.0);
     // off-diagonal elements for matrix A
     double c_d = 2.0 - 2.0*pow(result.dt*result.c/result.dx, 2.0) - result.dt/result.tau;
     // scalar beta
-    result.beta = pow(result.dt*result.c/result.dx, 2.0);
+    result.beta = result.dt / result.tau - 1.0;
     // putting values into the A matrix
     result.A = rarray<double, 2> (result.ngrid, result.ngrid);
     //result.A.fill(0,0);
     for (int i=0; i<(result.ngrid*result.ngrid); i++) result.A[i/result.ngrid][i%result.ngrid] = 0.0;
+    //printmatrix("A", result.A);
     for (int i=0; i<result.ngrid; i++){
     	result.A[i][i] = c_d;
     }
+    //printmatrix("A", result.A);
     // making matrix upper triangular band matrix
     for (int i=1; i<result.ngrid; i++){
     	result.A[i-1][i] = c_offd;
