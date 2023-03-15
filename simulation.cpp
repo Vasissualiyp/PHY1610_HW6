@@ -22,19 +22,20 @@ Parameters set_derived_simulation_parameters(const Parameters& p)
     // scalar beta
     result.beta = result.dt / result.tau - 1.0;
     // putting values into the A matrix
-    result.A = rarray<double, 2> (result.ngrid, result.ngrid);
+    result.A = rarray<double, 2> (result.ngrid, 2);
     //result.A.fill(0,0);
-    for (int i=0; i<(result.ngrid*result.ngrid); i++) result.A[i/result.ngrid][i%result.ngrid] = 0.0;
+    //for (int i=0; i<(result.ngrid*2); i++) result.A[i/2][i%result.ngrid] = 0.0;
     //printmatrix("A", result.A);
     for (int i=0; i<result.ngrid; i++){
-    	result.A[i][i] = 2.0*c_d;
+    	result.A[i][0] = c_d;
+    	result.A[i][1] = c_offd;
     }
-    //printmatrix("A", result.A);
+    printmatrix("A", result.A);
     // making matrix upper triangular band matrix
-    for (int i=1; i<result.ngrid; i++){
-    	result.A[i-1][i] = c_offd;
-    	//result.A[i][i-1] = c_offd;
-    }
+    //for (int i=1; i<result.ngrid; i++){
+    //	result.A[i-1][i] = c_offd;
+    //	//result.A[i][i-1] = c_offd;
+    //}
     //}}}
     //printmatrix("A", result.A);
     return result;
